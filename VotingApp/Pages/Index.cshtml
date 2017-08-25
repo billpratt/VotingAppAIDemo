@@ -1,0 +1,34 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = $"{Model.OptionA} vs {Model.OptionB}!";
+}
+
+<h3>@Model.OptionA vs @Model.OptionB!</h3>
+<form id="choice" name='form' method="POST">
+    <button id="a" type="submit" name="vote" class="a" value="@Model.OptionA">@Model.OptionA</button>
+    <button id="b" type="submit" name="vote" class="b" value="@Model.OptionB">@Model.OptionB</button>
+</form>
+<div id="tip">
+    (Tip: you can change your vote)
+</div>
+
+@section Scripts{
+    @if (!string.IsNullOrWhiteSpace(Model.Vote))
+    {
+        <script>
+            var vote = "@Model.Vote";
+
+            if (vote == "@Model.OptionA") {
+                $(".a").prop('disabled', true);
+                $(".a").html('@Model.OptionA <i class="fa fa-check-circle"></i>');
+                $(".b").css('opacity', '0.5');
+            }
+            if (vote == "@Model.OptionB") {
+                $(".b").prop('disabled', true);
+                $(".b").html('@Model.OptionB <i class="fa fa-check-circle"></i>');
+                $(".a").css('opacity', '0.5');
+            }
+        </script>
+    }
+}
