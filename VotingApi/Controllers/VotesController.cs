@@ -1,33 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using VotingApi.Models;
+using VotingApi.Services;
+using System.Threading.Tasks;
 
 namespace VotingApi.Controllers
 {
     [Route("api/[controller]")]
     public class VotesController : Controller
     {
-        // GET: api/votes
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        private VoteService _voteService;
 
-        // GET api/votes/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        public VotesController(VoteService voteService)
         {
-            return "value";
+            _voteService = voteService;
         }
 
         // POST api/votes
         [HttpPost]
-        public IActionResult Post([FromBody]VoteModel voteModel)
+        public async Task<IActionResult> Post([FromBody]VoteModel voteModel)
         {
+            await _voteService.Create(voteModel);
+
             return Ok();
         }
     }

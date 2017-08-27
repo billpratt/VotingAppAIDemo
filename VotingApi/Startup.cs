@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using VotingApi.Data.Repositories;
+using MongoDB.Driver;
+using VotingApi.Services;
 
 namespace VotingApi
 {
@@ -24,12 +27,20 @@ namespace VotingApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            var mongoClient = new MongoClient(Configuration.GetConnectionString("Mongo"));
+
+            services.AddSingleton<IMongoClient>(mongoClient);
+            services.AddSingleton<IVoteRepository, VoteRepository>();
+            services.AddSingleton<VoteService>();
+
+            services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Voting API", Version = "v1" });
             });
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

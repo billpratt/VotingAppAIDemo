@@ -28,6 +28,8 @@ namespace VotingApp
             services.Configure<VotingApiSettings>(Configuration.GetSection("VotingApiSettings"));
             services.AddSingleton<VotingApiService>();
 
+            services.AddApplicationInsightsTelemetry(Configuration);
+
             //services.AddSingleton<ITelemetryInitializer, UserIdTelemetryInitializer>();
 
             services.AddMvc();

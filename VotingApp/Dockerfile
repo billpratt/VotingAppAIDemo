@@ -10,10 +10,10 @@ RUN dotnet restore VotingApp.csproj
 
 # copy everything else and build
 COPY . ./
-RUN dotnet publish -c Release -o out VotingApp.csproj
+RUN dotnet publish -c Release -o obj/publish VotingApp.csproj
 
 # build runtime image
 FROM microsoft/aspnetcore:2.0
 WORKDIR /app
-COPY --from=build-env /app/out ./
+COPY --from=build-env /app/obj/publish ./
 ENTRYPOINT ["dotnet", "VotingApp.dll"]
