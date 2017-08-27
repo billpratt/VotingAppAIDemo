@@ -15,7 +15,6 @@ namespace VotingApp.Pages
         public string Name { get; private set; }
         public string OptionA { get; private set; } = "Dogs";
         public string OptionB { get; private set; } = "Cats";
-        public string Vote { get; private set; }
 
         public IndexModel(VotingApiService votingApiService)
         {
@@ -34,17 +33,6 @@ namespace VotingApp.Pages
 
             return Page();
                 
-        }
-
-        public async Task OnPost(string vote)
-        {
-            Vote = vote;
-
-            var user = Request.Cookies.FirstOrDefault(cookie => cookie.Key == Constants.UserCookieKey);
-            await _votingApiService.PostVote(user.Value, vote);
-            
-            //return RedirectToPage();
-
         }
     }
 }

@@ -26,8 +26,9 @@ namespace VotingApi.Controllers
 
         // POST api/votes
         [HttpPost]
-        public void Post([FromBody]VoteModel voteModel)
+        public IActionResult Post([FromBody]VoteModel voteModel)
         {
+            return Ok();
         }
     }
 }

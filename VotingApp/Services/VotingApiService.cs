@@ -22,7 +22,7 @@ namespace VotingApp.Services
             _telemetryClient = telemetryClient;
         }
 
-        public async Task PostVote(string voterId, string vote)
+        public async Task<(bool success, string msg)> PostVote(string voterId, string vote)
         {
             TrackVoteEvent(voterId, vote);
 
@@ -38,7 +38,10 @@ namespace VotingApp.Services
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync(resource, content);
 
-            response.EnsureSuccessStatusCode();
+            var success = response.IsSuccessStatusCode;
+            var msg = await response.Content.ReadAsStringAsync();
+
+            return (success, msg);
         }
 
         private void TrackVoteEvent(string voterId, string vote)

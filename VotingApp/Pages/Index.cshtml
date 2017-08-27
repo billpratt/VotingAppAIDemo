@@ -14,21 +14,54 @@
 </div>
 
 @section Scripts{
-    @if (!string.IsNullOrWhiteSpace(Model.Vote))
-    {
-        <script>
-            var vote = "@Model.Vote";
+    <script>
+        $().ready(function () {
+            $(".a").click(function () {
 
-            if (vote == "@Model.OptionA") {
-                $(".a").prop('disabled', true);
-                $(".a").html('@Model.OptionA <i class="fa fa-check-circle"></i>');
-                $(".b").css('opacity', '0.5');
-            }
-            if (vote == "@Model.OptionB") {
-                $(".b").prop('disabled', true);
-                $(".b").html('@Model.OptionB <i class="fa fa-check-circle"></i>');
-                $(".a").css('opacity', '0.5');
-            }
-        </script>
-    }
+                var a = $(".a");
+                var b = $(".b");
+
+                a.prop('disabled', true);
+                a.html('@Model.OptionA <i class="fa fa-check-circle"></i>');
+                a.css('opacity', '1');
+
+                b.prop('disabled', false);
+                b.html('@Model.OptionB');
+                b.css('opacity', '0.5');
+
+                postVote(a.val());
+
+                return false;
+            });
+
+            $(".b").click(function () {
+
+                var a = $(".a");
+                var b = $(".b");
+
+                b.prop('disabled', true);
+                b.html('@Model.OptionB <i class="fa fa-check-circle"></i>');
+                b.css('opacity', '1');
+
+                a.prop('disabled', false);
+                a.html('@Model.OptionA');
+                a.css('opacity', '0.5');
+
+                postVote(b.val());
+                
+                return false;
+            });
+        });
+
+        function postVote(vote)
+        {
+            $.post("/api/votes/" + vote)
+                .done(function (response) {
+                    console.log(response);
+                })
+                .fail(function (response) {
+                    console.log(response);
+                });
+        }
+    </script>
 }
