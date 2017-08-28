@@ -50,9 +50,8 @@ namespace VotingApi.Data.Repositories
             var dependencyTelemetry = new DependencyTelemetry
             {
                 Type = "Mongo",
-                Name = "InsertOne",
-                Target = CollectionName,
-                Data = JsonConvert.SerializeObject(voteRecord),
+                Name = "Mongo",
+                Data = $"InsertOne: {JsonConvert.SerializeObject(voteRecord)}",
                 Timestamp = startTime,
                 Duration = duration,
                 Success = success
