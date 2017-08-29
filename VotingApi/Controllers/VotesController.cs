@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using VotingApi.Models;
 using VotingApi.Services;
 using System.Threading.Tasks;
+using System;
 
 namespace VotingApi.Controllers
 {
@@ -20,6 +21,9 @@ namespace VotingApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]VoteModel voteModel)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
             await _voteService.Create(voteModel);
 
             return Ok();
