@@ -23,6 +23,10 @@ namespace VotingApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            // No cats allowed!
+            if (voteModel.Vote.Equals("cats", StringComparison.InvariantCultureIgnoreCase))
+                return BadRequest("Invalid vote");
             
             await _voteService.Create(voteModel);
 
