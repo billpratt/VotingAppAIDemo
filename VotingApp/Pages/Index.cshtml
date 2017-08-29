@@ -57,6 +57,11 @@
         {
             $.post("/api/votes/" + vote)
                 .done(function (response) {
+                    if (!response.success)
+                    {
+                        alert(response.msg);
+                    }
+
                     console.log(response);
                 })
                 .fail(function (response) {
