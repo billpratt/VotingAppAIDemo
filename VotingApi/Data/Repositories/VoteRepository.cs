@@ -49,8 +49,8 @@ namespace VotingApi.Data.Repositories
             var duration = DateTimeOffset.UtcNow - startTime;
             var dependencyTelemetry = new DependencyTelemetry
             {
-                Type = "Mongo",
-                Name = "Mongo",
+                Type = "MongoDB",
+                Name = "MongoDB",
                 Data = $"InsertOne: {JsonConvert.SerializeObject(voteRecord)}",
                 Timestamp = startTime,
                 Duration = duration,
